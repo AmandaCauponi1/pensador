@@ -10,6 +10,9 @@ const door = 3333
 
 const conn = require('./db/conn')
 
+const User = require('./models/User')
+const Tought = require('./models/Tought')
+
 // Import Models
 
 // Import Routes
