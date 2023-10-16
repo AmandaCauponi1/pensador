@@ -10,18 +10,23 @@ const door = 3333
 
 const conn = require('./db/conn')
 
-const User = require('./models/User')
-const Tought = require('./models/Tought')
+
 
 // Import Models
+const Tought = require('./models/Tought')
+const User = require('./models/User')
 
 // Import Routes
+const toughtsRoutes = require('./routes/toughtsRoutes')
+const authRoutes = require('./routes/authRoutes')
 
 //Import Controlles
+const ThoughtController = require('./controllers/ToughtController')
+const AuthController = require('./controllers/AuthController')
 
 // Configurar engine
 app.engine('handlebars', exphbs.engine())
-app.set('views engine', 'handlebars')
+app.set('view engine', 'handlebars')
 
 // Configurar JSON
 app.use(express.urlencoded({
@@ -61,10 +66,15 @@ app.use((req, res, next)=> {
   next()
 })
 // Rotas
+app.use('/toughts', toughtsRoutes)
+app.use('/', authRoutes)
+
+
+app.get('/', ThoughtController.showToughts)
 
 // Conexão e criação das tabelas do banco
 conn
-.sync()
+.sync({force: true})
 .then(() => {
   app.listen(3333)
 })
